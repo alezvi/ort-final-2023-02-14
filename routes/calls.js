@@ -29,4 +29,34 @@ router.post('/initial_calls', async function(req, res, next) {
   
 });
 
+// Para finalizar una llamada
+router.put('/finish_calls/:id', async function(req, res, next) {
+  let idCallRegistered = req.params.id;
+  let endTimeCall = req.body;
+  let { timeFinish } = endTimeCall
+  try{
+    if(Object.keys(endTimeCall).length === 0) {
+      throw new Error('BAD REQUEST: ALL FIELDS ARE REQUIRED')
+    }
+
+    //Verifica si existe la llamada
+    let callRegistered = await calls.findCallById(idCallRegistered);
+    if(!callRegistered) {
+      throw new Error('CALL NOT FOUND')
+    }
+
+    //Verifica si la llamada no ha finalizado previamente
+    if(await call.hasFinished(idCallRegistered)) {
+      throw new Error('THE CALL HAS FINISHED')
+    }
+    
+    let responseMethod = await calls.setFinishTime(idCallRegistered, timeFinish);
+    res.status(201).json(responseMethod);
+
+  }catch(error) {
+    res.status(400).json({message: error.message});
+  }
+  
+});
+
 module.exports = router;
