@@ -8,8 +8,46 @@ const registerCall = async (phoneNumberFrom, phoneNumberTo, timeInit) => {
             timeInit
         }
     )
+};
+
+const findCallById = async (idCallRegistered) => {
+    return await Call.findOne({
+        where: {
+            id: idCallRegistered
+        }
+    })
+};
+
+const hasFinished = async (idCallRegistered) => {
+    let callRegister = await Call.findOne({
+        where: {
+            id: idCallRegistered
+        }
+    })
+    return callRegister.timeFinish != null;
+};
+
+const setFinishTime = async (idCallRegistered, timeFinish) => {
+    await Call.update(
+        {
+            timeFinish
+        },
+        {
+            where: {
+                id: idCallRegistered
+            }
+        }
+    );
+    return await Call.findOne({
+        where: {
+            id: idCallRegistered
+        }
+    })
 }
 
 module.exports = {
     registerCall,
+    findCallById,
+    hasFinished,
+    setFinishTime
 }

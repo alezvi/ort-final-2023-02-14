@@ -46,7 +46,7 @@ router.put('/finish_calls/:id', async function(req, res, next) {
     }
 
     //Verifica si la llamada no ha finalizado previamente
-    if(await call.hasFinished(idCallRegistered)) {
+    if(await calls.hasFinished(idCallRegistered)) {
       throw new Error('THE CALL HAS FINISHED')
     }
     
