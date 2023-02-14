@@ -1,8 +1,9 @@
 var express = require('express');
 var router = express.Router();
+var calls = require('../src/repositories/calls')
 
 // Recibi los datos de la llamada de telefono
-router.post('/initial_calls', function(req, res, next) {
+router.post('/initial_calls', async function(req, res, next) {
   let callData = req.body;
   let { phoneNumberFrom, phoneNumberTo, timeInit } = callData
   try{
@@ -18,7 +19,10 @@ router.post('/initial_calls', function(req, res, next) {
     if(!timeInit) {
       throw new Error('BAD REQUEST: TIME INIT IS REQUIRED')
     }
-    
+
+    let callRegistered = await calls.registerCall(phoneNumberFrom, phoneNumberTo, timeInit);
+    res.status(201).json(callRegistered);
+
   }catch(error) {
     res.status(400).json({message: error.message});
   }
