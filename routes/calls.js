@@ -51,7 +51,10 @@ router.put('/finish_calls/:id', async function(req, res, next) {
     }
     
     let responseMethod = await calls.setFinishTime(idCallRegistered, timeFinish);
-    res.status(201).json(responseMethod);
+    if(responseMethod) {
+      await callcharges.setCallCharges(idCallRegistered);
+      res.status(201).json(responseMethod);
+    }
 
   }catch(error) {
     res.status(400).json({message: error.message});
