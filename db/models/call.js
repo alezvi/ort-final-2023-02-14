@@ -14,13 +14,26 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Call.init({
-    phoneNumberFrom: DataTypes.STRING,
-    phoneNumberTo: DataTypes.STRING,
-    timeInit: DataTypes.DATE,
-    timeFinish: DataTypes.DATE
+    phoneNumberFrom: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    phoneNumberTo: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    timeInit: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
+    timeFinish: {
+      type: DataTypes.DATE,
+      allowNull: true
+    },
   }, {
     sequelize,
     modelName: 'Call',
+    tableName: 'Calls'
   });
   return Call;
 };
