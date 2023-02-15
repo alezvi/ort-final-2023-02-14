@@ -43,11 +43,20 @@ const setFinishTime = async (idCallRegistered, timeFinish) => {
             id: idCallRegistered
         }
     })
-}
+};
+
+const getAllCalls = async (phoneNumber) => {
+    return await Call.findAll({
+        where: {
+            phoneNumberFrom: phoneNumber
+        }
+    })
+};
 
 module.exports = {
     registerCall,
     findCallById,
     hasFinished,
-    setFinishTime
+    setFinishTime,
+    getAllCalls
 }
