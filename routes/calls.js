@@ -63,16 +63,14 @@ router.put('/finish_calls/:id', async function(req, res, next) {
 });
 
 // Obtener el registro hecho por una llamada
-router.get('/:id', async function(req, res, next) {
-  let idCallRegistered = req.params.id;
+router.get('/', async function(req, res, next) {
+  let {phoneNumber} = req.query;
   try{
-    //Verifica si existe la llamada
-    let callRegistered = await calls.findCallById(idCallRegistered);
-    if(!callRegistered) {
-      throw new Error('CALL NOT FOUND')
+    if(!phoneNumber) {
+      throw new Error('PHONE NUMBER EMPTY')
     }
 
-    let responseMethod = await calls.getAllCalls(idCallRegistered);
+    let responseMethod = await calls.getAllCalls(phoneNumber);
     res.status(201).json(responseMethod);
 
   }catch(error) {

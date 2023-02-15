@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const { Call } = require('../../db/models')
 
 const registerCall = async (phoneNumberFrom, phoneNumberTo, timeInit) => {
@@ -45,10 +46,10 @@ const setFinishTime = async (idCallRegistered, timeFinish) => {
     })
 };
 
-const getAllCalls = async (phoneNumber) => {
+const getAllCalls = async (phoneNumberFrom) => {
     return await Call.findAll({
         where: {
-            phoneNumberFrom: phoneNumber
+            phoneNumberFrom
         }
     })
 };
