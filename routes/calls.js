@@ -10,15 +10,15 @@ router.post('/initial_calls', async function(req, res, next) {
     if(Object.keys(callData).length === 0) {
       throw new Error('BAD REQUEST: ALL FIELDS ARE REQUIRED')
     }
-    if(!phoneNumberFrom) {
-      throw new Error('BAD REQUEST: PHONE NUMBER FROM IS REQUIRED')
+    if(!phoneNumberFrom || !phoneNumberTo || !timeInit) {
+      throw new Error('ALL FIELDS ARE REQUIRED')
     }
-    if(!phoneNumberTo) {
+    /* if(!phoneNumberTo) {
       throw new Error('BAD REQUEST: PHONE NUMBER TO IS REQUIRED')
     }
     if(!timeInit) {
       throw new Error('BAD REQUEST: TIME INIT IS REQUIRED')
-    }
+    } */
 
     let callRegistered = await calls.registerCall(phoneNumberFrom, phoneNumberTo, timeInit);
     res.status(201).json(callRegistered);
